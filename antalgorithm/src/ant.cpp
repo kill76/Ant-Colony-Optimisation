@@ -109,7 +109,7 @@ int ant::chercherProchaineVille()
 
         probas.push_back(proba);
 
-        cout << "Proba : "<< proba << " ; Ville : " <<  indicesVillesAVisiter.at(i) << endl;
+       // cout << "Proba : "<< proba << " ; Ville : " <<  indicesVillesAVisiter.at(i) << endl;
     }
 
     // On effectue une roulette une fois toutes les probabilités calculées

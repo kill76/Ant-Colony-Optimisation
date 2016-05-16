@@ -22,7 +22,7 @@ int main(int argc, char **argv)
 {
     // Entrée des paramètre via un fichier de données
 
-    string nomfic="";
+  /*  string nomfic="";
     bool OK=false ;
 
     while (!OK)
@@ -39,6 +39,9 @@ int main(int argc, char **argv)
     }
 
     ifstream fichier(nomfic.c_str(), ios::in);
+*/
+
+       ifstream fichier("C:\\Users\\Killian\\Desktop\\res.txt", ios::in);
 
     int nbVille = 0;
     vector<vector<int> > distances;
@@ -107,7 +110,6 @@ int main(int argc, char **argv)
     syst.run(nbIter);
 
     // Affichage de la solution
-
     cout << "---------------------------" << endl << "Meilleure Distance : " << syst.getMeilleureSolution() << endl;
     cout << "Meilleur Trajet : ";
     vector<string> villesOrdonnee;

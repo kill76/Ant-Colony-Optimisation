@@ -57,13 +57,13 @@ void antSystem::run(const int nbIter)
             cout << "Fourmi : " << i+1 << endl;
             bool chang = false;
             ant* a = population.at(i);
-            cout << (*a);
+           // cout << (*a);
             while (!(a->getIndicesVillesAVisiter().empty()))
             {
                 int tmp = (a)->chercherProchaineVille();
 
                 (a)->avancerVille(tmp);
-                cout << "---------------------------" << endl <<"Avancement de la fourmi : " << "indice de la ville choisie : " << tmp << endl << (*a) << endl;
+               // cout << "---------------------------" << endl <<"Avancement de la fourmi : " << "indice de la ville choisie : " << tmp << endl << (*a) << endl;
                 if ((a->getIndicesVillesAVisiter().empty()) && chang == false)  // Ce bloc permet d'ajouter la ville de depart aux villes à visiter, une fois que toutes
                 {                                                               // les autres l'ont été, si cela n'a pas déjà été fait une fois. On cela pour pouvoir
                     a->pushNouvelleVille(0);                                    // répondre correctement au probleme du voyageur de commerce.

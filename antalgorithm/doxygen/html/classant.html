@@ -173,7 +173,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
   </table>
   </dd>
 </dl>
-<p>Cet ordre se traduit par le fait d'ajouter la ville en paramètre au vecteur indicesVillesVisitees et de l'enlever au vecteur indicesVillesAVisiter. </p><dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<p>Cet ordre se traduit simplement par le fait d'ajouter la ville en paramètre au vecteur indicesVillesVisitees et de l'enlever au vecteur indicesVillesAVisiter. </p><dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>
@@ -191,7 +191,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 </div><div class="memdoc">
 
 <p>Méthode permettant de trouver la prochaine ville à visiter. </p>
-<p>On fonctionne dans cette méthode avec des probabilités. On calcul la probabilité d'aller de la position courrante à toutes les autres villes non visitées. Une fois que l'on a calculer toutes les probabilités, on effectue une roulette - à la manière d'un algorithme génétique. On additionne les probabilités de toutes les villes, ce qui va créer un intervalle [0;1]. On va alors choisir un nombre aléatoire dans cet intervalle [0;1], et prendre la ville dont la probabilité se situe à cet endroit dans l'intervalle. </p><dl class="section return"><dt>Returns</dt><dd>int Indice de la ville choisie </dd></dl>
+<p>On fonctionne dans cette méthode avec des probabilités. On calcul la probabilité d'aller de la position courrante à toutes les autres villes non visitées. Une fois que l'on a calculé toutes les probabilités, on effectue une roulette - à la manière d'un algorithme génétique. On additionne les probabilités de toutes les villes, ce qui va créer un intervalle [0;1]. On va alors choisir un nombre aléatoire dans cet intervalle [0;1], et prendre la ville dont la probabilité se situe à cet endroit dans l'intervalle. </p><dl class="section return"><dt>Returns</dt><dd>int Indice de la ville choisie </dd></dl>
 
 </div>
 </div>
@@ -209,7 +209,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 </div><div class="memdoc">
 
 <p>Méthode de dépose des phéromones. </p>
-<p>On modifie ici les pheromonesParIteration puisque l'on dépose depose des phéromones à la fin d'une itération. </p><dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
+<p>On modifie ici les pheromonesParIteration puisque l'on dépose des phéromones uniquement à la fin d'une itération. </p><dl class="section return"><dt>Returns</dt><dd>void </dd></dl>
 
 </div>
 </div>
@@ -248,7 +248,7 @@ std::ostream &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>operato
 <div id="nav-path" class="navpath"><!-- id is needed for treeview function! -->
   <ul>
     <li class="navelem"><a class="el" href="classant.html">ant</a></li>
-    <li class="footer">Generated on Mon May 16 2016 10:54:16 for antalgorithm by
+    <li class="footer">Generated on Mon May 16 2016 16:50:35 for antalgorithm by
     <a href="http://www.doxygen.org/index.html">
     <img class="footer" src="doxygen.png" alt="doxygen"/></a> 1.8.11 </li>
   </ul>

@@ -79,6 +79,8 @@ int main(int argc, char **argv)
 
     fichier.close();
 
+    cout << "Nombre d'itération : "<< nbIter << endl << "Nombre de fourmis : " << nbAnt << endl << "Alpha : " << alpha << endl << "Beta : " << beta << endl << "Evap. Rate : " << evaporation << endl <<endl;
+
     cout << "Matrice des distances :" << endl;
     for (int i = 0 ; i < nbVille ; i++)
     {

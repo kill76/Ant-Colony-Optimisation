@@ -21,8 +21,8 @@ public:
     virtual ~antSystem();
 
     // Getters
-    int getMeilleureSolution() const;
-    vector<int> getMeilleurTrajet() const;
+    int getBestSolution() const;
+    vector<int> getBestPath() const;
 
     // Methods
     void run(const int);
@@ -30,10 +30,10 @@ public:
 private:
     vector<ant*> population;
 
-    vector<int> meilleurTrajet;
-    int meilleureSolution;
+    vector<int> bestPath;
+    int bestSolution;
 
-    datas& dat;
+    datas& data;
 };
 
 #endif // ANTSYSTEM_H

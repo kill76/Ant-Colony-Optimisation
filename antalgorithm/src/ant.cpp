@@ -22,160 +22,168 @@
 
 // Constructor / Destructor
 
-ant::ant(datas& d):donnees(d)
+ant::ant(datas& data):data(data)
 {
-    vector<int> indicesVillesAVisiterTemp;
-    indicesVillesAVisiterTemp.clear();
-    for(int i = 1 ; i< (int)d.getNomsVilles().size(); i++)
+    vector<int> tmpIndexesOfCitiesToVisit;
+    tmpIndexesOfCitiesToVisit.clear();
+    for(int i = 1 ; i< (int)data.getNamesOfCities().size(); i++)
     {
-        indicesVillesAVisiterTemp.push_back(i);
+        tmpIndexesOfCitiesToVisit.push_back(i);
     }
 
-    vector<int> indicesVillesVisitees2;
-    indicesVillesVisitees2.clear();
-    indicesVillesVisitees2.push_back(0);
+    vector<int> tmpIndexesOfCitiesVisited;
+    tmpIndexesOfCitiesVisited.clear();
+    tmpIndexesOfCitiesVisited.push_back(0);
 
-    indicesVillesAVisiter=indicesVillesAVisiterTemp;
-    indicesVillesVisitees=indicesVillesVisitees2;
+    indexesOfCitiesToVisit=tmpIndexesOfCitiesToVisit;
+    indexesOfCitiesVisited=tmpIndexesOfCitiesVisited;
 
-    distanceParcourue = 0;
-    currentPos=0;
+    distanceTravelled = 0;
+    currentPosition=0;
 }
 
 ant::~ant(){}
 
 // Getters
 
-vector<int> ant::getIndicesVillesVisitees() const {return this->indicesVillesVisitees;}
-vector<int> ant::getIndicesVillesAVisiter() const {return this->indicesVillesAVisiter;}
-int ant::getDistanceParcourue() const {return this->distanceParcourue;}
-int ant::getCurrentPos() const {return this->currentPos;}
+vector<int> ant::getIndexesOfCitiesVisited() const {return this->indexesOfCitiesVisited;}
+vector<int> ant::getIndexesOfCitiesToVisit() const {return this->indexesOfCitiesToVisit;}
+int ant::getDistanceTravelled() const {return this->distanceTravelled;}
+int ant::getCurrentPosition() const {return this->currentPosition;}
 
 // Methods
 
-void ant:: initialiser()
+void ant:: initialize()
 {
-    indicesVillesAVisiter.clear();
-    for(int i = 1 ; i< (int) this->donnees.getNomsVilles().size(); i++)
+    indexesOfCitiesToVisit.clear();
+    for(int i = 1 ; i< (int) this->data.getNamesOfCities().size(); i++)
     {
-        indicesVillesAVisiter.push_back(i);
+        indexesOfCitiesToVisit.push_back(i);
     }
-    indicesVillesVisitees.clear();
-    indicesVillesVisitees.push_back(0);
 
-    distanceParcourue = 0;
-    currentPos=0;
+    indexesOfCitiesVisited.clear();
+    indexesOfCitiesVisited.push_back(0);
+
+    distanceTravelled = 0;
+    currentPosition=0;
 }
 
-/** \brief Méthode ajoutant une nouvelle ville à indicesVillesAVisiter
- * \param a Indice de la ville à ajouter
- * \return void
- */
-void ant::pushNouvelleVille(const int a) {this->indicesVillesAVisiter.push_back(a);}
+/*
+    Add a new city to the indexesOfCitiesToVisit vector.
+*/
+void ant::pushNewCity(const int aCity) {this->indexesOfCitiesToVisit.push_back(aCity);}
 
-/** \brief Méthode permettant de trouver la prochaine ville à visiter.
- * \details On fonctionne dans cette méthode avec des probabilités. On calcul la probabilité d'aller de la position courrante à toutes les autres villes non visitées.
- * Une fois que l'on a calculé toutes les probabilités, on effectue une roulette - à la manière d'un algorithme génétique. On additionne les probabilités de toutes les villes,
- * ce qui va créer un intervalle [0;1]. On va alors choisir un nombre aléatoire dans cet intervalle [0;1], et prendre la ville dont la probabilité se situe à cet endroit dans l'intervalle.
- * \return int Indice de la ville choisie
- *
+ /*
+    Method to find the next city to visit.
+    We use probabilities to do so. We compute the probability to go from the current position to each the other cities.
+    Once done, we use a roulette : we sum all the probability thus creating a [0;1] interval.
+    Then we will pick a random number in this interval and chose the city whose probability is at this number in the interval.
+
+    Example:
+    If we have 3 cities of respective probability 0.2,0.3,0.5 then the interval is divided in 3 parts : 0 to 0.2 ; 0.2 to 0.5 ; 0.5 to 1.
+    If the random number is 0.4356, we will thus chose the 2nd city.
  */
-int ant::chercherProchaineVille()
+int ant::findNextCity()
 {
-    vector<float> probas ;
+    vector<float> probabilities ;
 
-    float denominateur=0;
+    float denominator=0;
 
-    int indV=currentPos;
-    float alpha=donnees.getAlpha();
-    float beta=donnees.getBeta();
+    int cityIndex=currentPosition;
+    float alpha=data.getAlpha();
+    float beta=data.getBeta();
 
-   // Calcul des probabilité d'aller de la ville currPos aux villes i
-
-    for (int i = 0 ; i < (int)indicesVillesAVisiter.size() ; i++)
+    // Compute the probabilities to go from the city currentPosition to the cities i
+    //*************************************************************
+    for (int i = 0 ; i < (int)indexesOfCitiesToVisit.size() ; i++)
     {
-        float a = donnees.getPheromones()[currentPos][indicesVillesAVisiter.at(i)];
-        int b = donnees.getDistances()[currentPos][indicesVillesAVisiter.at(i)];
+        float a = data.getPheromones()[currentPosition][indexesOfCitiesToVisit.at(i)];
+        int b = data.getDistances()[currentPosition][indexesOfCitiesToVisit.at(i)];
         float c =  (float ) 1/b;
-        denominateur+= (float) (pow(a,alpha) * pow (c,beta));
+        denominator+= (float) (pow(a,alpha) * pow (c,beta));
     }
 
-    for (int i = 0 ; i < (int) indicesVillesAVisiter.size() ; i++)
+    for (int i = 0 ; i < (int) indexesOfCitiesToVisit.size() ; i++)
     {
-        float a = donnees.getPheromones()[currentPos][indicesVillesAVisiter.at(i)];
-        int b = donnees.getDistances()[currentPos][indicesVillesAVisiter.at(i)];
+        float a = data.getPheromones()[currentPosition][indexesOfCitiesToVisit.at(i)];
+        int b = data.getDistances()[currentPosition][indexesOfCitiesToVisit.at(i)];
         float c =  (float ) 1/b;
-        float proba= (float) ((pow(a,alpha)) * (pow (c,beta)))/denominateur;
+        float probability= (float) ((pow(a,alpha)) * (pow (c,beta)))/denominator;
 
-        probas.push_back(proba);
+        probabilities.push_back(probability);
 
-       // cout << "Proba : "<< proba << " ; Ville : " <<  indicesVillesAVisiter.at(i) << endl;
+       // cout << "Probability : "<< probability << " ; City : " <<  indexesOfCitiesToVisit.at(i) << endl;
+       // Uncomment to see the whole process of the algorithm
     }
+    //*************************************************************
 
-    // On effectue une roulette une fois toutes les probabilités calculées
-
+    // We do the "roulette" once the probabilities calculated
+    //*************************************************************
         float random = ((float) rand()) / (float) RAND_MAX;
-        float cont=0;
+        float counter=0;
         int k=0;
-        while (cont<random && k< (int) probas.size())
+        while (counter<random && k< (int) probabilities.size())
         {
-            cont+= probas[k];
+            counter+= probabilities[k];
             k++;
         }
         --k;
+    //*************************************************************
 
-        indV=indicesVillesAVisiter.at(k);
+        cityIndex=indexesOfCitiesToVisit.at(k);
 
-    return indV;
+    return cityIndex;
 }
 
-/** \brief Méthode de dépose des phéromones
- * \details On modifie ici les pheromonesParIteration puisque l'on dépose des phéromones uniquement à la fin d'une itération.
- * \return void
- */
-void ant::deposerPheromone()
+/*
+    Method to deposit pheromones on the graph.
+
+    We only alter the PheromonesByIteration as we deposit the pheromones only at the end of an iteration.
+*/
+void ant::dropPheromone()
 {
-    for (int i=0 ; i < (int) indicesVillesVisitees.size() -1  ; i++)
+    for (int i=0 ; i < (int) indexesOfCitiesVisited.size() -1  ; i++)
     {
-        float b = (float) 1/distanceParcourue;
-        donnees.setPheromonesParIteration(indicesVillesVisitees.at(i),indicesVillesVisitees.at(i+1),b);
-        donnees.setPheromonesParIteration(indicesVillesVisitees.at(i+1),indicesVillesVisitees.at(i),b);
+        float b = (float) 1/distanceTravelled;
+        data.setPheromonesByIteration(indexesOfCitiesVisited.at(i),indexesOfCitiesVisited.at(i+1),b);
+        data.setPheromonesByIteration(indexesOfCitiesVisited.at(i+1),indexesOfCitiesVisited.at(i),b);
     }
 }
 
-/** \brief Méthode donnant l'ordre à une fourmi d'avancer
- * \param indVille Ville dans laquelle la fourmi doit aller
- * \details Cet ordre se traduit simplement par le fait d'ajouter la ville en paramètre au vecteur indicesVillesVisitees et de l'enlever au vecteur indicesVillesAVisiter.
- * \return void
- */
-void ant::avancerVille( const int indVille)
+/*
+    Method telling an ant to go to the next city
+
+    It is in fact simple : we add the cityIndex to the indexesOfCitiesVisited vector and remove it from indexesOfCitiesToVisit.
+    Of course, we also modify the distanceTravelled and the currentPosition of the ant.
+*/
+void ant::moveToNextCity( const int cityIndex)
 {
-    indicesVillesVisitees.push_back(indVille);
-    distanceParcourue = distanceParcourue + donnees.getDistances()[currentPos][indVille];
-    for (int j= 0 ; j <  (int) indicesVillesAVisiter.size() ; j++)
+    indexesOfCitiesVisited.push_back(cityIndex);
+    distanceTravelled = distanceTravelled + data.getDistances()[currentPosition][cityIndex];
+    for (int j= 0 ; j <  (int) indexesOfCitiesToVisit.size() ; j++)
     {
-        if (indVille == indicesVillesAVisiter.at(j))
+        if (cityIndex == indexesOfCitiesToVisit.at(j))
         {
-            indicesVillesAVisiter.erase(indicesVillesAVisiter.begin()+j);
+            indexesOfCitiesToVisit.erase(indexesOfCitiesToVisit.begin()+j);
         }
     }
-    currentPos=indVille;
+    currentPosition=cityIndex;
 }
 
-ostream& operator<< (ostream &res, const ant & fourmi )
+ostream& operator<< (ostream &res, const ant & ant )
 {
-    res << "Indices des villes à visiter : "  << endl;
-    for (int j= 0 ; j < (int) fourmi.indicesVillesAVisiter.size() ; j++)
+    res << "Indexes of the cities to visit : "  << endl;
+    for (int j= 0 ; j < (int) ant.indexesOfCitiesToVisit.size() ; j++)
     {
-        int a=fourmi.indicesVillesAVisiter[j];
+        int a=ant.indexesOfCitiesToVisit[j];
         res << "- " << a << endl;
     }
-    res << "Indices des villes visitées : " << endl;
-    for (int j= 0 ; j < (int)fourmi.indicesVillesVisitees.size() ; j++)
+    res << "Indexes of the visited cities : " << endl;
+    for (int j= 0 ; j < (int)ant.indexesOfCitiesVisited.size() ; j++)
     {
-        res  << "- " << fourmi.indicesVillesVisitees[j] << endl;
+        res  << "- " << ant.indexesOfCitiesVisited[j] << endl;
     }
-    res  << "Distance parcourue : " << fourmi.distanceParcourue << endl << "Position  actuelle : " << fourmi.currentPos << endl;
+    res  << "Distance travelled : " << ant.distanceTravelled << endl << "Current position : " << ant.currentPosition << endl;
     return res;
 }
 

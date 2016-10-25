@@ -111,3 +111,38 @@
 	"datas.h"
 	"antSystem.h"
 
+1477396151 source:/home/kjaubert/Bureau/pppp/Ant-Colony-Optimisation/antalgorithm/src/ant.cpp
+	"ant.h"
+	<cmath>
+	<string>
+	<iostream>
+	<stdlib.h>
+
+1477395986 /home/kjaubert/Bureau/pppp/Ant-Colony-Optimisation/antalgorithm/include/ant.h
+	<vector>
+	<iostream>
+	"datas.h"
+
+1477394331 /home/kjaubert/Bureau/pppp/Ant-Colony-Optimisation/antalgorithm/include/datas.h
+	<vector>
+	<iostream>
+
+1477396211 source:/home/kjaubert/Bureau/pppp/Ant-Colony-Optimisation/antalgorithm/src/antSystem.cpp
+	"antSystem.h"
+	"ant.h"
+
+1477395968 /home/kjaubert/Bureau/pppp/Ant-Colony-Optimisation/antalgorithm/include/antSystem.h
+	<vector>
+	<iostream>
+	"ant.h"
+
+1477395946 source:/home/kjaubert/Bureau/pppp/Ant-Colony-Optimisation/antalgorithm/src/datas.cpp
+	"datas.h"
+
+1477396437 source:/home/kjaubert/Bureau/pppp/Ant-Colony-Optimisation/antalgorithm/main.cpp
+	<vector>
+	<iostream>
+	<fstream>
+	"datas.h"
+	"antSystem.h"
+

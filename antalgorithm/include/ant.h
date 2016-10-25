@@ -21,33 +21,33 @@ class ant
 {
 public:
      // Constructor / Destructor
-    ant(datas& d);
+    ant(datas&);
     virtual ~ant();
 
     // Getters
-    vector<int> getIndicesVillesVisitees() const;
-    vector<int> getIndicesVillesAVisiter() const;
-    int getDistanceParcourue() const;
-    int getCurrentPos() const;
+    vector<int> getIndexesOfCitiesVisited() const;
+    vector<int> getIndexesOfCitiesToVisit() const;
+    int getDistanceTravelled() const;
+    int getCurrentPosition() const;
 
     // Methods
-    void pushNouvelleVille (const int);
+    void pushNewCity (const int);
 
-    int chercherProchaineVille();
-    void avancerVille( const int);
-    void deposerPheromone();
-    void initialiser();
+    int findNextCity();
+    void moveToNextCity( const int);
+    void dropPheromone();
+    void initialize();
 
     // Override
     friend std::ostream& operator<< (std::ostream &, const ant &);
 private:
-    vector<int>  indicesVillesVisitees;
-    vector<int>  indicesVillesAVisiter;
+    vector<int>  indexesOfCitiesVisited;
+    vector<int>  indexesOfCitiesToVisit;
 
-    int distanceParcourue;
-    int currentPos;
+    int distanceTravelled;
+    int currentPosition;
 
-    datas& donnees;
+    datas& data;
 
 };
 

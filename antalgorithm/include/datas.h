@@ -24,22 +24,22 @@ public:
     virtual ~datas();
 
     // Getters / Setters
-    vector<string> getNomsVilles() const;
+    vector<string> getNamesOfCities() const;
     vector<vector<float> > getPheromones() const;
-    vector<vector<float> > getPheromonesParIteration() const;
+    vector<vector<float> > getPheromonesByIteration() const;
     vector<vector<int> > getDistances() const;
     float getAlpha() const;
     float getBeta() const;
-    void setPheromonesParIteration (const int,const int ,const float);
+    void setPheromonesByIteration (const int,const int ,const float);
 
     // Methods
     void evaporate();
-    vector<string> chercherVilleViaIndice(vector<int>);
+    vector<string> findCityUsingIndex(vector<int>);
 private:
-    vector<vector<float> > pheromonesParIteration;
+    vector<vector<float> > pheromonesByIteration;
     vector<vector<float> > pheromones;
     vector<vector<int> > distances;
-    vector<string>  nomsVilles;
+    vector<string>  namesOfCities;
     float alpha;
     float beta ;
     float evaporation;

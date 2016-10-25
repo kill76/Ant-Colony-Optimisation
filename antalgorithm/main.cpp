@@ -20,74 +20,83 @@ using namespace std;
 
 int main(int argc, char **argv)
 {
-    // Entrée des paramètre via un fichier de données
-
-  /*  string nomfic="";
+    // We use a data file to enter the parameter of the algorithm
+    //*************************************************************
+    string filePath="";
     bool OK=false ;
 
     while (!OK)
     {
-        cout << "Indiquez le chemin absolu du fichier de donnée :" << endl;
-        cin >> nomfic;
-        ifstream fic(nomfic.c_str(), ios::in);
-        if (fic)
+        cout << "Enter the absolute file path :" << endl;
+        cin >> filePath;
+        ifstream tmpFile(filePath.c_str(), ios::in);
+        if (tmpFile)
         {
             OK=true;
-            fic.close();
+            tmpFile.close();
         }
-        else cerr << "Impossible d'ouvrir le fichier ! Recommencez !" << endl << endl;
+        else cerr << "Impossible to open the file, make sure the path is correct." << endl << endl;
     }
+    //*************************************************************
 
-    ifstream fichier(nomfic.c_str(), ios::in);
-*/
+    // Declaration of the parameters
+    //*************************************************************
+    ifstream file(filePath.c_str(), ios::in);
 
-       ifstream fichier("C:\\Users\\Killian\\Desktop\\res.txt", ios::in);
-
-    int nbVille = 0;
+    int nbOfCities = 0;
     vector<vector<int> > distances;
-    vector<int> ligne;
-    vector<string> villes;
-    int nbIter =0;
-    int nbAnt =0;
+    vector<int> line;
+    vector<string> cities;
+    int nbOfIterations =0;
+    int nbOfAnts =0;
     float alpha=0;
     float beta=0;
     float evaporation=0;
+    //*************************************************************
 
-    fichier>>nbVille;
-    cout << "Données initiales " << endl << "-----------------" << endl;
-    cout <<  "Nombre de villes : " << nbVille << endl;
-    for (int i = 0 ; i < nbVille ; i++)
+
+    // As we know how the file is written, we can directly read it to give a value to each parameter
+    //*************************************************************
+    file>>nbOfCities;
+    cout << "Initial data " << endl << "-----------------" << endl;
+    cout << "Number of cities : " << nbOfCities << endl;
+    for (int i = 0 ; i < nbOfCities ; i++)
     {
-        for (int j = 0 ; j < nbVille; j++)
+        for (int j = 0 ; j < nbOfCities; j++)
         {
             int tmp;
-            fichier >> tmp;
-            ligne.push_back(tmp);
+            file >> tmp;
+            line.push_back(tmp);
         }
-        distances.push_back(ligne);
-        ligne.clear();
+        distances.push_back(line);
+        line.clear();
     }
 
-    for (int k = 0 ; k < nbVille ; k++)
+    for (int k = 0 ; k < nbOfCities ; k++)
     {
         string tmp;
-        fichier >> tmp;
-        villes.push_back(tmp);
+        file >> tmp;
+        cities.push_back(tmp);
     }
-    fichier >> nbIter;
-    fichier >> nbAnt;
-    fichier >> alpha;
-    fichier >> beta;
-    fichier >> evaporation;
 
-    fichier.close();
+    file >> nbOfIterations;
+    file >> nbOfAnts;
+    file >> alpha;
+    file >> beta;
+    file >> evaporation;
 
-    cout << "Nombre d'itération : "<< nbIter << endl << "Nombre de fourmis : " << nbAnt << endl << "Alpha : " << alpha << endl << "Beta : " << beta << endl << "Evap. Rate : " << evaporation << endl <<endl;
+    file.close();
+    //*************************************************************
 
-    cout << "Matrice des distances :" << endl;
-    for (int i = 0 ; i < nbVille ; i++)
+
+    // We print on the screen the value of the parameters read
+    //*************************************************************
+    cout << "Number of iteration : "<< nbOfIterations << endl << "Number of ants : " << nbOfAnts << endl << "Alpha : " << alpha << endl << "Beta : " << beta << endl << "Evap. Rate : " << evaporation << endl <<endl;
+
+    cout << "Distance matrix :" << endl;
+    for (int i = 0 ; i < nbOfCities ; i++)
     {
-        for (int j = 0 ; j < nbVille; j++)
+        for (int j = 0 ; j < nbOfCities; j++)
         {
             cout << " " << distances[i][j];
         }
@@ -95,29 +104,34 @@ int main(int argc, char **argv)
     }
     cout << endl;
 
-    cout << "Liste des villes : " << endl;
-    for (int i = 0 ; i < nbVille ; i++)
+    cout << "List of cities : " << endl;
+    for (int i = 0 ; i < nbOfCities ; i++)
     {
-        cout << "- " << villes[i] << endl;
+        cout << "- " << cities[i] << endl;
     }
 
     cout << "---------------------------" << endl;
+    //*************************************************************
 
-    // Initialisation des classes et lancement de l'algorithme
+    // Initialization of the problem and launch of the algorithm
+    //*************************************************************
+    datas problem(distances,cities,alpha,beta,evaporation);
+    antSystem syst(nbOfAnts, problem);
+    syst.run(nbOfIterations);
+    //*************************************************************
 
-    datas probleme(distances,villes,alpha,beta,evaporation);
-    antSystem syst(nbAnt, probleme);
-    syst.run(nbIter);
+    // Printing of the solution on the screen
+    //*************************************************************
 
-    // Affichage de la solution
-    cout << "---------------------------" << endl << "Meilleure Distance : " << syst.getMeilleureSolution() << endl;
-    cout << "Meilleur Trajet : ";
-    vector<string> villesOrdonnee;
-    villesOrdonnee= probleme.chercherVilleViaIndice(syst.getMeilleurTrajet());
-    cout << villesOrdonnee[0];
-    for (int i = 1 ; i < (int) villesOrdonnee.size() ; i++)
+    cout << "---------------------------" << endl << "Best solution : " << syst.getBestSolution() << endl;
+    cout << "Best path: ";
+    vector<string> orderedCities;
+    orderedCities= problem.findCityUsingIndex(syst.getBestPath());
+    cout << orderedCities[0];
+    for (int i = 1 ; i < (int) orderedCities.size() ; i++)
     {
-        cout << " -> " << villesOrdonnee[i];
+        cout << " -> " << orderedCities[i];
     }
+    //*************************************************************
 
 }

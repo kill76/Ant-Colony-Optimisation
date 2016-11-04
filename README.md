@@ -1,4 +1,4 @@
-# Use of an Ant Algorithm in order to solve the Traveling Salesman Problem.
+# Approximating solutions of Traveling Salesman Problem using ACO (Ant Colonoy Optimisation).
 ## Killian Jaubert / Rafael Cartenet
 
 Project developed during our studies at INSA.
